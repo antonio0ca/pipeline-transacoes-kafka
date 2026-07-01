@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transacoes em Tempo Real</title>
+    <meta name="description" content="Dashboard ao vivo de um pipeline de transacoes financeiras com Spring Boot, Apache Kafka e PostgreSQL, com avaliacao antifraude.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="container">
+        <header class="masthead">
+            <div class="masthead-text">
+                <span class="eyebrow">Kafka &middot; Spring Boot &middot; Antifraude</span>
+                <h1>Transacoes em <em>Tempo Real</em></h1>
+                <p class="lede">Cada transacao passa pelo Kafka, e avaliada pelas regras antifraude, gravada no PostgreSQL e transmitida aqui, ao vivo.</p>
+            </div>
+            <button id="theme-btn" class="ghost-btn" title="Alternar tema" aria-label="Alternar tema claro/escuro">Tema</button>
+        </header>
+
+        <section class="algo-note">
+            <div class="note-head">
+                <span class="eyebrow accent">O pipeline</span>
+                <div class="complexity">
+                    <span>Produtor <b>simulador</b></span>
+                    <span>Broker <b>Apache Kafka</b></span>
+                    <span>Consumidor <b>antifraude</b></span>
+                    <span>Persistencia <b>PostgreSQL</b></span>
+                </div>
+            </div>
+            <p class="note-desc">Valores acima do limite viram suspeita ou negacao; muitas transacoes da mesma conta em pouco tempo levantam alerta de velocidade.</p>
+        </section>
+
+        <section class="stats" aria-live="polite">
+            <div class="stat">
+                <span class="stat-label">Volume total</span>
+                <span id="stat-volume" class="stat-value">R$ 0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Transacoes</span>
+                <span id="stat-total" class="stat-value">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Taxa de aprovacao</span>
+                <span id="stat-taxa" class="stat-value">0%</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Bloqueadas</span>
+                <span id="stat-bloqueadas" class="stat-value">0</span>
+            </div>
+        </section>
+
+        <section class="stage">
+            <div class="section-head">
+                <span class="eyebrow">Volume por metodo</span>
+            </div>
+            <div class="viz" id="viz"></div>
+        </section>
+
+        <section class="history">
+            <div class="history-head">
+                <span class="eyebrow">Ultimas transacoes</span>
+                <div class="legend">
+                    <span class="legend-item"><span class="swatch aprovada"></span>Aprovada</span>
+                    <span class="legend-item"><span class="swatch suspeita"></span>Suspeita</span>
+                    <span class="legend-item"><span class="swatch negada"></span>Negada</span>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th class="col-id">ID</th>
+                        <th>Metodo</th>
+                        <th class="col-uf">UF</th>
+                        <th class="num">Valor</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="feed">
+                    <tr><td colspan="6" class="empty">Aguardando transacoes...</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="footer">
+            Dados ficticios gerados para demonstracao. Produtor e consumidor Kafka no mesmo servico Spring Boot.
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
