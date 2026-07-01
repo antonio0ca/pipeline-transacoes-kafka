@@ -1,5 +1,7 @@
 # Pipeline de Transacoes em Tempo Real
 
+![CI](https://github.com/antonio0ca/pipeline-transacoes-kafka/actions/workflows/ci.yml/badge.svg)
+
 Pipeline de processamento de transacoes financeiras construido com Spring Boot, Apache Kafka e PostgreSQL. Um produtor simula um fluxo continuo de transacoes (Pix, cartao, TED, boleto), um consumidor aplica regras antifraude, grava o resultado no banco e transmite tudo para um dashboard ao vivo.
 
 O projeto explora, de ponta a ponta, um caso de uso tipico de mensageria em fintech: ingestao de eventos, aplicacao de regras de negocio no consumidor e visualizacao em tempo real.
