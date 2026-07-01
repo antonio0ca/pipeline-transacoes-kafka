@@ -67,6 +67,16 @@ O consumidor classifica cada transacao com base em regras deterministicas e expl
 
 Os limites e a janela de velocidade sao configuraveis em `application.yml`, na secao `app.antifraude`.
 
+## Testes
+
+As regras antifraude sao cobertas por testes unitarios puros (sem Kafka nem banco). Para rodar, com Docker desligado, basta o JDK 21:
+
+```bash
+./mvnw test
+```
+
+O projeto inclui o Maven Wrapper (`mvnw`), entao nao e necessario ter o Maven instalado.
+
 ## Endpoints
 
 | Metodo | Rota | Descricao |
