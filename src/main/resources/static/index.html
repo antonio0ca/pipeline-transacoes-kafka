@@ -1,97 +1,98 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="light">
+<html lang="pt-br" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transacoes em Tempo Real</title>
-    <meta name="description" content="Dashboard ao vivo de um pipeline de transacoes financeiras com Spring Boot, Apache Kafka e PostgreSQL, com avaliacao antifraude.">
+    <title>Fluxo — Monitor de Transações</title>
+    <meta name="description" content="Dashboard ao vivo de um pipeline de transacoes financeiras com Spring Boot, Apache Kafka e PostgreSQL, com avaliacao antifraude em tempo real.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <main class="container">
-        <header class="masthead">
-            <div class="masthead-text">
-                <span class="eyebrow">Kafka &middot; Spring Boot &middot; Antifraude</span>
-                <h1>Transacoes em <em>Tempo Real</em></h1>
-                <p class="lede">Cada transacao passa pelo Kafka, e avaliada pelas regras antifraude, gravada no PostgreSQL e transmitida aqui, ao vivo.</p>
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name">Fluxo</div>
+                    <div class="brand-sub">Monitor de transações antifraude</div>
+                </div>
             </div>
-            <button id="theme-btn" class="ghost-btn" title="Alternar tema" aria-label="Alternar tema claro/escuro">Tema</button>
+            <div class="topbar-right">
+                <span class="chip demo-chip" id="demo-chip" hidden>dados simulados</span>
+                <span class="live" id="live-badge"><span class="live-dot"></span>AO VIVO</span>
+                <button class="icon-btn" id="theme-btn" title="Alternar tema" aria-label="Alternar tema claro/escuro">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                </button>
+            </div>
         </header>
 
-        <section class="algo-note">
-            <div class="note-head">
-                <span class="eyebrow accent">O pipeline</span>
-                <div class="complexity">
-                    <span>Produtor <b>simulador</b></span>
-                    <span>Broker <b>Apache Kafka</b></span>
-                    <span>Consumidor <b>antifraude</b></span>
-                    <span>Persistencia <b>PostgreSQL</b></span>
+        <section class="kpis">
+            <article class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Volume total</span>
+                    <span class="kpi-ico"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></span>
                 </div>
-            </div>
-            <p class="note-desc">Valores acima do limite viram suspeita ou negacao; muitas transacoes da mesma conta em pouco tempo levantam alerta de velocidade.</p>
-        </section>
-
-        <section class="stats" aria-live="polite">
-            <div class="stat">
-                <span class="stat-label">Volume total</span>
-                <span id="stat-volume" class="stat-value">R$ 0</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Transacoes</span>
-                <span id="stat-total" class="stat-value">0</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Taxa de aprovacao</span>
-                <span id="stat-taxa" class="stat-value">0%</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Bloqueadas</span>
-                <span id="stat-bloqueadas" class="stat-value">0</span>
-            </div>
-        </section>
-
-        <section class="stage">
-            <div class="section-head">
-                <span class="eyebrow">Volume por metodo</span>
-            </div>
-            <div class="viz" id="viz"></div>
-        </section>
-
-        <section class="history">
-            <div class="history-head">
-                <span class="eyebrow">Ultimas transacoes</span>
-                <div class="legend">
-                    <span class="legend-item"><span class="swatch aprovada"></span>Aprovada</span>
-                    <span class="legend-item"><span class="swatch suspeita"></span>Suspeita</span>
-                    <span class="legend-item"><span class="swatch negada"></span>Negada</span>
+                <div class="kpi-value" id="stat-volume">R$ 0</div>
+                <div class="kpi-foot" id="foot-volume">ticket médio R$ 0</div>
+            </article>
+            <article class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Transações</span>
+                    <span class="kpi-ico"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg></span>
                 </div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Hora</th>
-                        <th class="col-id">ID</th>
-                        <th>Metodo</th>
-                        <th class="col-uf">UF</th>
-                        <th class="num">Valor</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="feed">
-                    <tr><td colspan="6" class="empty">Aguardando transacoes...</td></tr>
-                </tbody>
-            </table>
+                <div class="kpi-value" id="stat-total">0</div>
+                <div class="kpi-foot" id="foot-total">processadas em tempo real</div>
+            </article>
+            <article class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Taxa de aprovação</span>
+                    <span class="kpi-ico"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="M22 4 12 14.01l-3-3"/></svg></span>
+                </div>
+                <div class="kpi-value" id="stat-taxa">0%</div>
+                <div class="kpi-foot" id="foot-taxa">0 de 0 aprovadas</div>
+            </article>
+            <article class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Bloqueadas</span>
+                    <span class="kpi-ico"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                </div>
+                <div class="kpi-value" id="stat-bloqueadas">0</div>
+                <div class="kpi-foot" id="foot-bloqueadas">0 suspeitas · 0 negadas</div>
+            </article>
         </section>
 
-        <footer class="footer">
-            Dados ficticios gerados para demonstracao. Produtor e consumidor Kafka no mesmo servico Spring Boot.
+        <section class="panels">
+            <article class="panel">
+                <div class="panel-head"><h2 class="panel-title">Distribuição por status</h2></div>
+                <div class="status-list" id="status-list"></div>
+            </article>
+            <article class="panel">
+                <div class="panel-head"><h2 class="panel-title">Volume por método</h2></div>
+                <div class="bars" id="viz"></div>
+            </article>
+        </section>
+
+        <section class="panel feed-panel">
+            <div class="panel-head">
+                <h2 class="panel-title">Transações recentes</h2>
+                <span class="muted feed-hint">atualiza ao vivo</span>
+            </div>
+            <div class="feed" id="feed">
+                <div class="feed-empty">Aguardando transações...</div>
+            </div>
+        </section>
+
+        <footer class="foot-note">
+            Produtor e consumidor Apache Kafka no mesmo serviço Spring Boot, com persistência em PostgreSQL. Dados fictícios para demonstração.
         </footer>
-    </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
